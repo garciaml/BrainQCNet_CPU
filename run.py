@@ -45,7 +45,11 @@ parser.add_argument('--skip_bids_validator', help='Whether or not to perform BID
                    action='store_true')
 parser.add_argument('-v', '--version', action='version',
                     version='BIDS-App example version {}'.format(__version__))
-
+parser.add_argument('--pythonpath', default='venv/bin', help='Environnemnt in which images are processed')
+parser.add_argument('--masks', default='0', help='0 : return log file; 1 : predict and save prototypes.')
+parser.add_argument('--pred_method', default='percentage', help='percentage: percentage of slices predicted 1; mean: mean of predictions on each slice; median: median of predictions on each slice')
+parser.add_argument('--n_areas', default='3', help='Integer; To sample each axis into n areas, and computes the probability and prediction of class in each area; Must be lower than the number of slices of each axis. Recommendation: give n_areas lower than 100.')
+parser.add_argument('--modeldir', default='./saved_models/resnet152/19112020/', help='The directory where the weighs and the prototypes of the best model ResNet152 is stored.')
 
 args = parser.parse_args()
 
@@ -69,14 +73,19 @@ else:
 
 # running participant level
 if args.analysis_level == "participant":
-
-    # find all T1s and skullstrip them
+    # cmd = ". %s/activate"%(args.pythonpath)
+    # run(cmd)
+    # find all T1s and process them
     for subject_label in subjects_to_analyze:
-        for T1_file in glob(os.path.join(args.bids_dir, "sub-%s"%subject_label,
-                                         "anat", "*_T1w.nii*")) + glob(os.path.join(args.bids_dir,"sub-%s"%subject_label,"ses-*","anat", "*_T1w.nii*")):
-            out_file = os.path.split(T1_file)[-1].replace("_T1w.", "_brain.")
-            cmd = "bet %s %s"%(T1_file, os.path.join(args.output_dir, out_file))
-            print(cmd)
+        for T1_file in glob(os.path.join(args.bids_dir,
+                                         "sub-%s"%subject_label,
+                                         "anat",
+                                         "*_T1w.nii*")) + glob(os.path.join(args.bids_dir,
+                                         "sub-%s"%subject_label,
+                                         "ses-*","anat",
+                                         "*_T1w.nii*")):
+            filename = T1_file.split("/")[-1]
+            cmd = "./preprocess_and_predict.sh %s %s %s %s %s %s %s %s"%(T1_file, filename, subject_label, args.output_dir, args.pythonpath, args.masks, args.pred_method, args.n_areas, args.modeldir)
             run(cmd)
 
 # running group level
