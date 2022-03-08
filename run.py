@@ -85,7 +85,7 @@ if args.analysis_level == "participant":
                                          "ses-*","anat",
                                          "*_T1w.nii*")):
             filename = T1_file.split("/")[-1]
-            cmd = "./preprocess_and_predict.sh %s %s %s %s %s %s %s %s"%(T1_file, filename, subject_label, args.output_dir, args.pythonpath, args.masks, args.pred_method, args.n_areas, args.modeldir)
+            cmd = "./preprocess_and_predict.sh %s %s %s %s %s %s %s %s %s"%(T1_file, filename, subject_label, args.output_dir, args.pythonpath, args.masks, args.pred_method, args.n_areas, args.modeldir)
             run(cmd)
 
 # running group level
