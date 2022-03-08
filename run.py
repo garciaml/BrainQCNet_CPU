@@ -41,8 +41,8 @@ parser.add_argument('--participant_label', help='The label(s) of the participant
                    'provided all subjects should be analyzed. Multiple '
                    'participants can be specified with a space separated list.',
                    nargs="+")
-parser.add_argument('--skip_bids_validator', help='Whether or not to perform BIDS dataset validation',
-                   action='store_true')
+#parser.add_argument('--skip_bids_validator', help='Whether or not to perform BIDS dataset validation',
+#                   action='store_true')
 parser.add_argument('-v', '--version', action='version',
                     version='BIDS-App example version {}'.format(__version__))
 parser.add_argument('--pythonpath', default='venv/bin', help='Environnemnt in which images are processed')
@@ -53,13 +53,13 @@ parser.add_argument('--modeldir', default='./saved_models/resnet152/19112020/', 
 
 args = parser.parse_args()
 
-if not args.skip_bids_validator:
-    #run('bids-validator %s'%args.bids_dir)
-    from bids_validator import BIDSValidator
-    validator = BIDSValidator()
-    filepaths = glob(os.path.join(args.bids_dir, "*"))
-    for filepath in filepaths:
-        print(filepath, ":", validator.is_bids(filepath))  # will print True, and then False
+#if not args.skip_bids_validator:
+#    #run('bids-validator %s'%args.bids_dir)
+#    from bids_validator import BIDSValidator
+#    validator = BIDSValidator()
+#    filepaths = glob(os.path.join(args.bids_dir, "*"))
+#    for filepath in filepaths:
+#        print(filepath, ":", validator.is_bids(filepath))  # will print True, and then False
 
 
 subjects_to_analyze = []
