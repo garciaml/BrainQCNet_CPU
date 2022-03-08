@@ -9,6 +9,7 @@ $(VENV)/bin/activate: requirements.txt
 	./$(VENV)/bin/pip install wheel
 	./$(VENV)/bin/pip install -r requirements.txt
 	./$(VENV)/bin/pip install torch==1.9.0+cpu torchvision==0.10.0+cpu torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+	./$(VENV)/bin/pip install bids-validator
 
 # venv is a shortcut target
 venv: $(VENV)/bin/activate
