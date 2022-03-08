@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
+
 import argparse
 import os
 import subprocess
-import nibabel
-import numpy
 from glob import glob
+import pandas as pd
 
 __version__ = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                 'version')).read()
@@ -90,12 +90,8 @@ if args.analysis_level == "participant":
 
 # running group level
 elif args.analysis_level == "group":
-    brain_sizes = []
+    df_all = pd.DataFrame({"subid": [], "proba": [], "t": [], "pred": []})
     for subject_label in subjects_to_analyze:
-        for brain_file in glob(os.path.join(args.output_dir, "sub-%s*.nii*"%subject_label)):
-            data = nibabel.load(brain_file).get_data()
-            # calcualte average mask size in voxels
-            brain_sizes.append((data != 0).sum())
+        df_all = pd.concat([df_all, pd.read_csv(os.path.join(args.output_dir, subject_label, "tot_df.csv"), index_col=0)], axis=0, ignore_index=True, sort=False)
+    df_all.to_csv(os.path.join(args.output_dir, "group_results.csv"), index=False)
 
-    with open(os.path.join(args.output_dir, "avg_brain_size.txt"), 'w') as fp:
-        fp.write("Average brain size is %g voxels"%numpy.array(brain_sizes).mean())
