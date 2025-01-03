@@ -22,7 +22,7 @@ chouette() {
 }
 
 poule() {
-    python predict_all_axes.py -gpuid $5 -modeldir $1 -model $2 -partid $3 -imgdir $4 -masks $6
+    python predict_all_axes.py -modeldir $1 -model $2 -partid $3 -imgdir $4 -masks $5
 }
 
 mouette() {
@@ -36,11 +36,10 @@ FILENAME=$2
 SUBID=$3
 OUTDIR=$4
 PYTHONPATH=$5
-GPUID=$6
-MASKS=$7
-PRED_METHOD=$8
-N_AREAS=$9
-MODELDIR=${10}
+MASKS=$6
+PRED_METHOD=$7
+N_AREAS=$8
+MODELDIR=$9
 # Activating virtual environment
 . $PYTHONPATH/activate
 # Cropping 3D image
@@ -51,7 +50,7 @@ chouette $FILENAME $SUBID $OUTDIR
 # Removing cropped 3D image
 rm ./$FILENAME
 # Predicting on all the 2D slices 
-poule $MODELDIR $MODEL $SUBID $OUTDIR $GPUID $MASKS
+poule $MODELDIR $MODEL $SUBID $OUTDIR $MASKS
 mouette $OUTDIR $SUBID $PRED_METHOD $N_AREAS
 # Deactivating virtual environment
 deactivate
