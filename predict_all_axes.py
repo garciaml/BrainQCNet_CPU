@@ -82,7 +82,6 @@ partid = args.partid[0]
 # predict masks
 predict_masks = bool(int(args.masks[0]))
 
-model_base_architecture = load_model_dir.split('/')[2]
 experiment_run = '/'.join(load_model_dir.split('/')[3:])
 
 # creating the path to save results
@@ -97,7 +96,6 @@ epoch_number_str = re.search(r'\d+', load_model_name).group(0)
 start_epoch_number = int(epoch_number_str)
 
 log('load model from ' + load_model_path)
-log('model base architecture: ' + model_base_architecture)
 log('experiment run: ' + experiment_run)
 
 ppnet = torch.load(load_model_path, map_location=torch.device('cpu'))
