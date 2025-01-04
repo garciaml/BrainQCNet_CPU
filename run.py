@@ -6,7 +6,7 @@ import subprocess
 from glob import glob
 import pandas as pd
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 def run(command, env={}):
     merged_env = os.environ.copy()

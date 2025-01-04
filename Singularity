@@ -3,7 +3,7 @@ From: python:3.9-slim
 
 %labels
     Author MelanieGarcia
-    Version 1.0.0
+    Version 1.0.1
     Description Singularity image for BrainQCNet - CPU version
 
 %files
